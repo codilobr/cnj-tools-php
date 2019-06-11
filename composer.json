@@ -1,0 +1,25 @@
+{
+    "name": "codilo/cnj-tools-php",
+    "description": "Conjunto de métodos para manipulação da numeração única do CNJ",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Caio Duarte",
+            "email": "caio@codilo.com.br"
+        },
+        {
+            "name": "Rodrigo Lopes",
+            "email": "rodrigo@codilo.com.br"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    }
+}

@@ -230,4 +230,10 @@ class CalculatorTest extends PHPUnit\Framework\TestCase
     $this->assertEquals(false, $tools->checkValidator('1', '00', '2001', '1', '01', '1'));
     $this->assertEquals(false, $tools->checkValidator('1', '00', '1', '1', '01', '1'));
   }
+
+  public function testGenValidator() {
+    $tools = new Codilo\CnjTools;
+
+    $this->assertEquals('0000001-59.2001.1.00.0001', $tools->genValidator('0000001', '2001', '1', '00', '0001'));
+  }
 }

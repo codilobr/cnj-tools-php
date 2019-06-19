@@ -14,6 +14,7 @@ O cnj-tools é um conjunto de métodos para manipulação da numeração única 
 ### Checar validade
 
 ```php
+<?php
 $tools = new Codilo\CnjTools;
 
 $valid = $tools->is_cnj('0000001-59.2001.1.00.0001'); /* $valid === true  */
@@ -23,6 +24,7 @@ $valid = $tools->is_cnj('0000000-00.0000.0.00.0000'); /* $valid === false */
 ### Checar a origem a partir da numeração
 
 ```php
+<?php
 $tools = new Codilo\CnjTools;
 
 $origin = $tools->origin_cnj('0000001-59.2001.1.00.0001'); /* $origin === 'Supremo Tribunal Federal' */
@@ -33,6 +35,7 @@ $origin = $tools->origin_cnj('0000000-00.0000.0.00.0000'); /* $origin === false 
 ### Geração do número validador
 
 ```php
+<?php
 $tools = new Codilo\CnjTools;
 
 $cnj = $tools->gen_validator('0000001', '2001', '1', '00', '0001'); /* $cnj === '0000001-59.2001.1.00.0001' */
@@ -42,6 +45,7 @@ $cnj = $tools->gen_validator('0000001', '2001', '8', '26', '0001'); /* $cnj === 
 ### Formatação de string para o padrão
 
 ```php
+<?php
 $tools = new Codilo\CnjTools;
 
 $cnj = $tools->mount_cnj('00000015920011000001'); /* $cnj === '0000001-59.2001.1.00.0001' */
@@ -51,6 +55,7 @@ $cnj = $tools->mount_cnj('00000015120018260001'); /* $cnj === '0000001-51.2001.8
 ### Remoção da formatação
 
 ```php
+<?php
 $tools = new Codilo\CnjTools;
 
 $cnj = $tools->clean('0000001-59.2001.1.00.0001'); /* $cnj === '00000015920011000001' */
@@ -60,6 +65,7 @@ $cnj = $tools->clean('0000001-51.2001.8.26.0001'); /* $cnj === '0000001512001826
 ### Quebra do número de CNJ em Array
 
 ```php
+<?php
 $tools = new Codilo\CnjTools;
 
 $array = $tools->split('0000001-59.2001.1.00.0001'); /* $array === ['0000001', '59', '2001', '1', '00', '0001'] */

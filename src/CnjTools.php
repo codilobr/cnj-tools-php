@@ -95,6 +95,12 @@ class CnjTools
     return [$NNNNNNN, $DD, $AAAA, $J, $TR, $OOOO];
   }
 
+  public function is_cnj ($value)
+  {
+    $cnj = $this->split($value);
+    return $this->check_validator($cnj[0], $cnj[1], $cnj[2], $cnj[3], $cnj[4], $cnj[5]);
+  }
+
   public function sanitize_values ($NNNNNNN, $DD, $AAAA, $J, $TR, $OOOO)
   {
     $nnnnnnn = strlen($NNNNNNN) == 7 ? $NNNNNNN : $this->pad_string($NNNNNNN, 7);

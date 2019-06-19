@@ -101,11 +101,18 @@ class CnjTools
     return $this->check_validator($cnj[0], $cnj[1], $cnj[2], $cnj[3], $cnj[4], $cnj[5]);
   }
 
-  public function clean ($cnj)
+  public function clean ($value)
   {
-    $splited = $this->split($cnj);
-    $cleaned = implode('', $splited);
+    $cnj = $this->split($value);
+    $cleaned = implode('', $cnj);
     return $cleaned;
+  }
+
+  public function mount_cnj ($value)
+  {
+    $cnj = $this->split($value);
+    $mounted = $this->format_cnj($cnj[0], $cnj[1], $cnj[2], $cnj[3], $cnj[4], $cnj[5]);
+    return $mounted;
   }
 
   public function sanitize_values ($NNNNNNN, $DD, $AAAA, $J, $TR, $OOOO)

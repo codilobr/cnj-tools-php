@@ -1,10 +1,11 @@
 <?php
 
-class CnjToolsTest extends PHPUnit\Framework\TestCase
+class CheckValidatorTest extends PHPUnit\Framework\TestCase
 { 
-  public function test_check_validator ()
+  public function test_valid_cnjs ()
   {
     $tools = new Codilo\CnjTools;
+
     $this->assertEquals(true, $tools->check_validator('1', '59', '2001', '1', '00', '1'));
     $this->assertEquals(true, $tools->check_validator('1', '75', '2001', '2', '00', '1'));
     $this->assertEquals(true, $tools->check_validator('1', '91', '2001', '3', '00', '1'));
@@ -113,6 +114,12 @@ class CnjToolsTest extends PHPUnit\Framework\TestCase
     $this->assertEquals(true, $tools->check_validator('1', '67', '2001', '9', '26', '1'));
     $this->assertEquals(true, $tools->check_validator('1', '32', '2001', '1', '01', '1'));
     $this->assertEquals(true, $tools->check_validator('1', '35', '1', '1', '01', '1'));
+  }
+
+  public function test_invalid_cnjs ()
+  {
+    $tools = new Codilo\CnjTools;
+
     $this->assertEquals(false, $tools->check_validator('1', '00', '2001', '1', '00', '1'));
     $this->assertEquals(false, $tools->check_validator('1', '00', '2001', '2', '00', '1'));
     $this->assertEquals(false, $tools->check_validator('1', '00', '2001', '3', '00', '1'));
@@ -221,121 +228,5 @@ class CnjToolsTest extends PHPUnit\Framework\TestCase
     $this->assertEquals(false, $tools->check_validator('1', '00', '2001', '9', '26', '1'));
     $this->assertEquals(false, $tools->check_validator('1', '00', '2001', '1', '01', '1'));
     $this->assertEquals(false, $tools->check_validator('1', '00', '1', '1', '01', '1'));
-  }
-
-  public function test_gen_validator ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    /* TODO: Adicionar mais cnjs para testes mais extensivos */
-    $this->assertEquals('0000001-59.2001.1.00.0001', $tools->gen_validator('0000001', '2001', '1', '00', '0001'));
-  }
-
-  public function test_split ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $this->assertEquals(['0000000', '00', '0000', '0', '00', '0000'], $tools->split(null));
-    $this->assertEquals(['0000001', '59', '2001', '1', '00', '0001'], $tools->split('0000001-59.2001.1.00.0001'));
-    $this->assertEquals(['0000000', '00', '0000', '0', '00', '0001'], $tools->split('1'));
-  }
-
-  public function test_is_cnj ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $this->assertEquals(false, $tools->is_cnj('1'));   
-    $this->assertEquals(true, $tools->is_cnj('0000001-59.2001.1.00.0001'));   
-  }
-
-  public function test_clean ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $this->assertEquals('00000000000000000001', $tools->clean('1'));
-    $this->assertEquals('00000015920011000001', $tools->clean('0000001-59.2001.1.00.0001'));
-  }
-
-  public function test_mount_cnj ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $this->assertEquals('0000000-00.0000.0.00.0001', $tools->mount_cnj('00000000000000000001'));
-    $this->assertEquals('0000001-59.2001.1.00.0001', $tools->mount_cnj('00000015920011000001'));
-  }
-
-  public function test_origin_cnj ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $this->assertEquals(false, $tools->origin_cnj('0000001-32.2001.1.01.0001'));
-    $this->assertEquals('Supremo Tribunal Federal', $tools->origin_cnj('0000001-59.2001.1.00.0001'));
-  }
-
-  public function test_mod_value ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $value = rand();
-    $result = $value % 97;
-
-    $this->assertEquals($result, $tools->mod_value($value));
-    $this->assertEquals($result, $tools->mod_value((string) $value));
-  }
-
-  public function test_pad_string ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $value = rand(1, 100);
-    $pad_length = rand(5, 10);
-    $padded_value = $tools->pad_string($value, $pad_length);
-
-    $this->assertEquals($pad_length, strlen($padded_value));
-  }
-
-  public function test_sub_string ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $value = (string) rand(1, 1000);
-    $char = substr($value, 0, 1);
-
-    $this->assertEquals($char, $tools->sub_string($value));
-  }
-
-  public function test_concat_values ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $values = array('hello', '-', 'world');
-    $this->assertEquals('hello-world', $tools->concat_values($values));
-  }
-
-  public function test_format_cnj ()
-  {
-    $tools = new Codilo\CnjTools;
-
-    $this->assertEquals('0000001-59.2001.1.00.0001', $tools->format_cnj('1', '59', '2001', '1', '00', '1'));
-  }
-
-  public function test_sanitize_values () {
-    $tools = new Codilo\CnjTools;
-
-    $values = $tools->sanitize_values('1', '59', '2001', '1', '00', '1');
-
-    $nnnnnnn = $values['nnnnnnn'];
-    $dd = $values['dd'];
-    $aaaa = $values['aaaa'];
-    $j = $values['j'];
-    $tr = $values['tr'];
-    $oooo = $values['oooo'];
-
-    $this->assertEquals(7, strlen($nnnnnnn));
-    $this->assertEquals(2, strlen($dd));
-    $this->assertEquals(4, strlen($aaaa));
-    $this->assertEquals(1, strlen($j));
-    $this->assertEquals(2, strlen($tr));
-    $this->assertEquals(4, strlen($oooo));
   }
 }

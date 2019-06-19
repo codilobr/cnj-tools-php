@@ -4,6 +4,8 @@ namespace Codilo;
 
 class CnjTools
 {
+  protected $courts;
+
   public function __construct ()
   {
     $data = file_get_contents(__DIR__ . '/../data/courts.json');

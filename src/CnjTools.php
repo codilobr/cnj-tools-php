@@ -4,6 +4,12 @@ namespace Codilo;
 
 class CnjTools
 {
+  public function __construct ()
+  {
+    $data = file_get_contents(__DIR__ . '/../data/courts.json');
+    $this->courts = json_decode($data, true);
+  }
+
   public function check_validator($NNNNNNN, $DD, $AAAA, $J, $TR, $OOOO)
   {
     $values = $this->sanitize_values($NNNNNNN, $DD, $AAAA, $J, $TR, $OOOO);
@@ -113,6 +119,22 @@ class CnjTools
     $cnj = $this->split($value);
     $mounted = $this->format_cnj($cnj[0], $cnj[1], $cnj[2], $cnj[3], $cnj[4], $cnj[5]);
     return $mounted;
+  }
+
+  public function origin_cnj ($value)
+  {
+    $cnj = $this->split($value);
+    $valid = $this->check_validator($cnj[0], $cnj[1], $cnj[2], $cnj[3], $cnj[4], $cnj[5]);
+
+    if (!$valid) return false;
+
+    $J = $cnj[3];
+    $TR = $cnj[4];
+
+    if (!array_key_exists($J, $this->courts)) return false;
+    if (array_key_exists($TR, $this->courts[$J])) return $this->courts[$J][$TR];
+
+    return false;
   }
 
   public function sanitize_values ($NNNNNNN, $DD, $AAAA, $J, $TR, $OOOO)

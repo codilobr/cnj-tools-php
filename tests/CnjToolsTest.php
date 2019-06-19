@@ -264,6 +264,14 @@ class CnjToolsTest extends PHPUnit\Framework\TestCase
     $this->assertEquals('0000001-59.2001.1.00.0001', $tools->mount_cnj('00000015920011000001'));
   }
 
+  public function test_origin_cnj ()
+  {
+    $tools = new Codilo\CnjTools;
+
+    $this->assertEquals(false, $tools->origin_cnj('0000001-32.2001.1.01.0001'));
+    $this->assertEquals('Supremo Tribunal Federal', $tools->origin_cnj('0000001-59.2001.1.00.0001'));
+  }
+
   public function test_mod_value ()
   {
     $tools = new Codilo\CnjTools;

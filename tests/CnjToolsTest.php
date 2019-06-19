@@ -231,6 +231,15 @@ class CalculatorTest extends PHPUnit\Framework\TestCase
     $this->assertEquals('0000001-59.2001.1.00.0001', $tools->gen_validator('0000001', '2001', '1', '00', '0001'));
   }
 
+  public function test_split ()
+  {
+    $tools = new Codilo\CnjTools;
+
+    $this->assertEquals(['0000000', '00', '0000', '0', '00', '0000'], $tools->split(null));
+    $this->assertEquals(['0000000', '01', '2001', '1', '00', '0001'], $tools->split('0000001.2001.1.00.0001'));
+    $this->assertEquals(['0000000', '00', '0000', '0', '00', '0001'], $tools->split('1'));
+  }
+
   public function test_mod_value ()
   {
     $tools = new Codilo\CnjTools;

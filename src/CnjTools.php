@@ -47,6 +47,54 @@ class CnjTools
     return $cnj;
   }
 
+  public function split ($cnj)
+  {
+    if ($cnj == null) return ['0000000', '00', '0000', '0', '00', '0000'];
+
+    $notNumber = '/^0+|[^\d]+/';
+    $cnjRegExp = '/(\d{1,7})-?(\d{1,2}).?(\d{1,4}).?(\d{1}).?(\d{1,2}).?(\d{1,4})/';
+
+    $splitted = preg_split($notNumber, $cnj);
+
+    $NNNNNNN = false;
+    $DD = false;
+    $AAAA = false;
+    $J = false;
+    $TR = false;
+    $OOOO = false;
+
+    if (preg_match($notNumber, $cnj) && preg_match($cnjRegExp, $cnj) && sizeof($splitted) === 6)
+    {
+      $NNNNNNN = $this->pad_string(preg_replace($notNumber, '', $splitted[0]), 7);
+      $DD = $this->pad_string(preg_replace($notNumber, '', $splitted[1]), 2);
+      $AAAA = $this->pad_string(preg_replace($notNumber, '', $splitted[2]), 4);
+      $J = $this->pad_string(preg_replace($notNumber, '', $splitted[3]), 1);
+      $TR = $this->pad_string(preg_replace($notNumber, '', $splitted[4]), 2);
+      $OOOO = $this->pad_string(preg_replace($notNumber, '', $splitted[5]), 4);
+    }
+
+    $standard = $NNNNNNN && $DD && $AAAA && $J && $TR && $OOOO
+      && strlen($NNNNNNN) <= 7
+      && strlen($DD) <= 2
+      && strlen($AAAA) <= 4
+      && strlen($J) <= 1
+      && strlen($TR) <= 2
+      && strlen($OOOO) <= 4;
+
+    if (!$standard) {
+      $number = $this->pad_string(preg_replace($notNumber, '', $cnj), 20);
+      
+      $NNNNNNN = substr($number, 0, 7);
+      $DD = substr($number, 7, 2);
+      $AAAA = substr($number, 9, 4);
+      $J = substr($number, 13, 1);
+      $TR = substr($number, 14, 2);
+      $OOOO = substr($number, 16, 4);
+    }
+
+    return [$NNNNNNN, $DD, $AAAA, $J, $TR, $OOOO];
+  }
+
   public function sanitize_values ($NNNNNNN, $DD, $AAAA, $J, $TR, $OOOO)
   {
     $nnnnnnn = strlen($NNNNNNN) == 7 ? $NNNNNNN : $this->pad_string($NNNNNNN, 7);
